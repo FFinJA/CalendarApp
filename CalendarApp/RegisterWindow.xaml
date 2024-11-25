@@ -1,0 +1,59 @@
+﻿<Window x:Class="CalendarApp.RegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarApp"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource MaterialDesignWindow}"
+        Background="White"
+        Title="RegisterWindow" ResizeMode="NoResize" Height="700" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*"/>
+        <ColumnDefinition Width="5*"/>
+        <ColumnDefinition Width="2*"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="1*"/>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="7*"/>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="1*"/>
+    </Grid.RowDefinitions>
+
+    <Grid.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="15 2"/>
+            <Setter Property="MinWidth" Value="70"/>
+        </Style>
+    </Grid.Resources>
+
+    <TextBlock Grid.Column="1" Grid.Row="1" Text="Sign Up" FontWeight="Bold" FontSize="24" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Style="{StaticResource MaterialDesignHeadline1TextBlock}"/>
+
+    <Border Grid.Row="2" Grid.RowSpan="2" Grid.Column="1"
+            BorderBrush="DarkSlateGray" BorderThickness="0.5" CornerRadius="10" Padding="5,5">
+        <StackPanel>
+            <!--<Label HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignLabel}">User Name</Label>-->
+                <TextBox x:Name="UserNameTextBox" Style="{DynamicResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Enter your user name" Margin="0,10" />
+            <!--<Label HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignLabel}">Email</Label>-->
+                <TextBox x:Name="EmailTextBox"  Style="{DynamicResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Enter your email" Margin="0,10"/>
+            <!--<Label HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignLabel}">Password</Label>-->
+                <PasswordBox x:Name="PasswordTextBox" Style="{DynamicResource MaterialDesignFilledPasswordBox}" materialDesign:HintAssist.Hint="Enter your password" Margin="0,10"/>
+                <!--<Label HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignLabel}">Confrim Password</Label>-->
+                <PasswordBox x:Name="ConfirmPasswordTextBox" Style="{DynamicResource MaterialDesignFilledPasswordBox}" materialDesign:HintAssist.Hint="Enter your password again" Margin="0,10"/>
+
+                <Button Content="Sign me up" Margin="0, 20" Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" Width="200" Cursor="Hand" Click="SignUpButton_Click"/>
+
+            <TextBlock Text="Already have an account?" Margin="0,20" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                <Button Content="Login" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Width="200" Cursor="Hand" Click="LoginButton_Click" />
+        </StackPanel>
+    </Border>
+    </Grid>
+
+
+</Window>

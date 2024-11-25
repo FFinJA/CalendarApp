@@ -1,0 +1,95 @@
+﻿<Window x:Class="CalendarApp.NewEventWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:calendarapp="clr-namespace:CalendarApp"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource MaterialDesignWindow}"
+        Background="White"
+        Title="Add New Event"
+        Height="700" Width="600" Cursor="">
+    <Window.DataContext>
+        <calendarapp:events />
+    </Window.DataContext>
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Add a New Event" FontWeight="Bold" FontSize="24" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,20" 
+                   Style="{StaticResource MaterialDesignHeadline1TextBlock}" />
+
+        <!-- Form -->
+        <Border Grid.Row="2" Grid.Column="1" BorderBrush="DarkSlateGray" BorderThickness="0.5" CornerRadius="10" Padding="5,5">
+            <StackPanel Margin="0,0,0,20">
+                <!-- Event Title -->
+                <TextBox x:Name="TextBoxTitle" Style="{StaticResource MaterialDesignFilledTextBox}" 
+                         materialDesign:HintAssist.Hint="Title of Event" Margin="0,0,0,15" 
+                         Text="{Binding title, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- Event Date -->
+                <DatePicker x:Name="DatePickerEventDate" Style="{StaticResource MaterialDesignDatePicker}" 
+                            materialDesign:HintAssist.Hint="Date of Event" Margin="0,0,0,15" 
+                            SelectedDate="{Binding EventDate, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- Whole Day -->
+                <CheckBox x:Name="CheckBoxIsWholeDay" Content="Is Whole Day?" 
+                          Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,15" 
+                          IsChecked="{Binding IsWholeDay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- Start Time -->
+                <materialDesign:TimePicker x:Name="TimePickerStart" 
+                                           SelectedTime="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" 
+                                           materialDesign:HintAssist.Hint="Start Time" Margin="0,0,0,15" />
+
+                <!-- End Time -->
+                <materialDesign:TimePicker x:Name="TimePickerEnd" 
+                                           SelectedTime="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" 
+                                           materialDesign:HintAssist.Hint="End Time" Margin="0,0,0,15" />
+
+                <!-- Notification -->
+                <CheckBox x:Name="CheckBoxNotification" Content="Add Notification?" 
+                          IsChecked="{Binding AddNotification, UpdateSourceTrigger=PropertyChanged}" 
+                          Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,15" />
+
+                <!-- Notification Lead Time -->
+                <ComboBox x:Name="ComboBoxNotificationLeadTime" Style="{StaticResource MaterialDesignComboBox}" 
+                          materialDesign:HintAssist.Hint="Notification Lead Time" 
+                          SelectedItem="{Binding SelectedNotificationTime, UpdateSourceTrigger=PropertyChanged}" 
+                          Margin="0,0,0,15">
+                    <ComboBoxItem Content="5 minutes" />
+                    <ComboBoxItem Content="10 minutes" />
+                    <ComboBoxItem Content="15 minutes" />
+                    <ComboBoxItem Content="30 minutes" />
+                    <ComboBoxItem Content="1 hour" />
+                </ComboBox>
+
+                <!-- Description -->
+                <TextBox x:Name="TextBoxDescription" Style="{StaticResource MaterialDesignFilledTextBox}" 
+                         materialDesign:HintAssist.Hint="Description of Event (Optional)" Margin="0,0,0,15" 
+                         Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Add Event" Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Width="100" Margin="10,0" Click="AddEvent_Click"/>
+            <Button Content="Cancel" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="80" Margin="10,0" Click="Cancel_Click"/>
+            <Button Content="Back" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="70" Margin="10,0" Click="Back_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

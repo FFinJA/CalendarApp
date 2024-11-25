@@ -1,0 +1,71 @@
+# Build Results
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.vshost.*
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.csproj.user
+*.vbproj.user
+
+# Visual Studio specific
+.vs/
+.vscode/
+*.sln.docstates
+
+# Logs
+*.log
+*.tlog
+*.ide.log
+
+# Packages
+packages/
+*.nupkg
+*.snupkg
+
+# Generated Files
+*.g.i.cs
+*.Designer.cs
+*.cache
+*.generated.cs
+
+# Publish outputs
+*.publish/
+
+# Other temporary files
+*.tmp
+*.bak
+*.swp
+*.dbmdl
+*.log
+
+# Application Insights
+ApplicationInsights.config
+*.TelemetryChannel.config
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# Rider
+.idea/
+
+# Azure DevOps
+*.coverage
+*.coveragexml
+
+# Dependencies
+project.lock.json
+global.json
+artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+project.assets.json
+nuget.exe
