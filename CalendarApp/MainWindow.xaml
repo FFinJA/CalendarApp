@@ -22,13 +22,9 @@
 
         <!-- side bar -->
         <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Cursor="">
+            <TextBlock x:Name="TextBlockH1" Text="Calendar" FontWeight="Bold" FontSize="24" Margin="10" />
 
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <Button Content="＋ Create" Background="#3A6EFF" Foreground="White" Padding="10,5"
-                        FontWeight="Bold" Margin="5" BorderThickness="0" Width="120" />
-            </StackPanel>
-
-
+            
             <Border Margin="10" >
                 <Calendar BorderBrush="#3A6EFF" BorderThickness="1"/>
             </Border>
@@ -49,10 +45,11 @@
                 <CheckBox Content="Canada Holidays" IsChecked="True" Foreground="Black" Margin="5,2" />
                 <CheckBox Content="Province Holidays" IsChecked="True" Foreground="Black" Margin="5,2" />
             </StackPanel>
-            <Button Content="Open Login Window" Width="150" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenLoginWindow_Click" />
-            <Button Content="Open Register Window" Width="150" Height="50" Click="OpenReigsterWindow_Click" />
-            <Button Content="Open New Event Window" Width="150" Height="50" Click="OpenNewEventWindow_Click" />
-            <Button Content="Open Data Config Window" Width="150" Height="50" Click="OpenDbConfigWindow_Click" />
+            <Button x:Name="ButtonOpenLoginWindow" Content="Open Login Window" Width="150" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenLoginWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}" />
+            <Button x:Name="ButtonOpenRegisterWindow" Content="Open Register Window" Width="150" Height="50" Click="OpenReigsterWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+            <Button x:Name="ButtonOpenNewEventWindow" Content="Open New Event Window" Width="150" Height="50" Click="OpenNewEventWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+            <Button x:Name="ButtonOpenDbConfigWindow" Content="Open Data Config Window" Width="150" Height="50" Click="OpenDbConfigWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+
         </StackPanel>
 
         <!-- main zone -->
@@ -127,13 +124,21 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
+                                        
+                                        <!-- Event indicator -->
+                                        <ItemsControl ItemsSource="{Binding Events}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding title}" FontSize="12" Foreground="Blue" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
 
                                         <!-- Holiday name -->
                                         <TextBlock Text="{Binding Holiday}"
                                        FontSize="12"
                                        Foreground="Red"
-                                       TextWrapping="Wrap"
-                                       
+                                       TextWrapping="Wrap"                                       
                                        HorizontalAlignment="Center" />
                                     </StackPanel>
                                 </Grid>

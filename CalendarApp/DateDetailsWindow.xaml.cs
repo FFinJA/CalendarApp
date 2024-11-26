@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,18 +16,21 @@ using System.Windows.Shapes;
 namespace CalendarApp
 {
     /// <summary>
-    /// DateDetailsWindow.xaml 的交互逻辑
+    /// DateDetailsWindow.xaml 
     /// </summary>
     public partial class DateDetailsWindow : Window
     {
         public DateTime SelectedDate { get; }
         public string Holiday { get; }
 
-        public DateDetailsWindow(DateTime selectedDate, string holiday, List<string> events = null)
+        
+
+        public DateDetailsWindow(DateTime selectedDate, string holiday, ObservableCollection<events> events)
         {
             InitializeComponent();
             SelectedDate = selectedDate;
             Holiday = holiday;
+            
 
             // Display the selected date
             SelectedDateTextBlock.Text = SelectedDate.ToString("D");
@@ -34,12 +38,14 @@ namespace CalendarApp
             // Display holiday if available
             HolidayTextBlock.Text = string.IsNullOrEmpty(Holiday) ? "No holiday" : Holiday;
 
+            
+
             // Populate the list of events
             if (events != null)
             {
                 foreach (var evt in events)
                 {
-                    EventsListBox.Items.Add(evt);
+                    EventsListBox.Items.Add($"Title: {evt.Title}, Start at:{evt.start_time.ToShortTimeString()} .");
                 }
             }
         }

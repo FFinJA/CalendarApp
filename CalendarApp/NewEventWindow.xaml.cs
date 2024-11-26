@@ -14,18 +14,26 @@ namespace CalendarApp
     {
         public events NewEvent { get; set; }
 
-        public NewEventWindow()
+        private users _loggedInUser;
+        private int _userId;
+
+        public NewEventWindow(users loggedInUser=null)
         {
             InitializeComponent();
             var converter = new TimeSpanToDateTimeConverter();
-
-            NewEvent = new events
+            if (loggedInUser != null)
             {
-                UserId = 1, // Example user ID, replace with actual user
-                CreatedAt = DateTime.Now,
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now.AddSeconds(1)
-            };
+                _loggedInUser = loggedInUser;
+                _userId = _loggedInUser.id;
+            }
+
+                NewEvent = new events
+                {
+                    UserId = _loggedInUser.id,
+                    CreatedAt = DateTime.Now,
+                    StartTime = DateTime.Now,
+                    EndTime = DateTime.Now.AddSeconds(1)
+                };                    
 
             DataContext = NewEvent;
         }
@@ -78,7 +86,7 @@ namespace CalendarApp
                     return;
                 }
 
-                int recurrenceId;
+                int recurrenceId=1;
                 switch(NewEvent.SelectedRecurrence)
                 {
                     case "Daily":
@@ -99,9 +107,7 @@ namespace CalendarApp
                     case "Just Once":
                         recurrenceId = 1;
                         break;
-                    default:
-                        recurrenceId = 1;
-                        break;
+                    
                 }
 
                 NewEvent.RecurrenceId = recurrenceId;
@@ -190,6 +196,7 @@ namespace CalendarApp
                 }
 
                 MessageBox.Show("Event added successfully!");
+                DialogResult = true;
                 this.Close();
             }
             catch (Exception ex)
@@ -225,6 +232,9 @@ namespace CalendarApp
             NewEvent.EndTimeOnly = null;
             NewEvent.AddNotification = false;
             NewEvent.SelectedNotificationTime = null;
+            NewEvent.IsRecurring = false;
+            NewEvent.SelectedRecurrence = null;
+            NewEvent.CategoryName = null;
         }
     }
 }
