@@ -147,6 +147,7 @@
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeSpanToDateTimeConverter.cs" />
     <Compile Include="users.cs">
       <DependentUpon>MyDatabaseModel.tt</DependentUpon>
     </Compile>

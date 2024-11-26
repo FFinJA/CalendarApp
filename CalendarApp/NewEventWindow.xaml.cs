@@ -1,139 +1,156 @@
-﻿using PdfSharp.Drawing.BarCodes;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using CalendarApp;
 
 namespace CalendarApp
 {
     /// <summary>
     /// NewEventWindow.xaml 
     /// </summary>
-    public partial class NewEventWindow : Window, INotifyPropertyChanged
+    public partial class NewEventWindow : Window
     {
         public events NewEvent { get; set; }
-        public DateTime? EventDate
-        {
-            get
-            {
-                // check if start_time is not default value
-                return NewEvent.start_time != DateTime.MinValue
-                    ? NewEvent.start_time.Date
-                    : (DateTime?)null;
-            }
-            set
-            {
-                if (value.HasValue)
-                {
-                    NewEvent.start_time = value.Value.Date;
-                }
-                else
-                {
-                    NewEvent.start_time = DateTime.MinValue;
-                }
-                RaisePropertyChanged();
-            }
-        }
+
         public NewEventWindow()
         {
             InitializeComponent();
+            var converter = new TimeSpanToDateTimeConverter();
 
             NewEvent = new events
             {
-                user_id = 1, // Example user ID, replace with actual user
-                created_at = DateTime.Now,
-                start_time = DateTime.MinValue
+                UserId = 1, // Example user ID, replace with actual user
+                CreatedAt = DateTime.Now,
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddSeconds(1)
             };
+
             DataContext = NewEvent;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        // Properties bound to XAML
-        public new string Title
-        {
-            get => NewEvent.title;
-            set => NewEvent.title = value;
-        }
-
-        public string Description
-        {
-            get => NewEvent.description;
-            set => NewEvent.description = value;
-        }
-
-        
-
-        public bool IsWholeDay { get; set; }
-
-        public TimeSpan? StartTime { get; set; }
-
-        public TimeSpan? EndTime { get; set; }
-
-        public bool AddNotification { get; set; }
-
-        public string SelectedNotificationTime { get; set; }
 
         private void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             // Validation
-            if (string.IsNullOrWhiteSpace(NewEvent.title))
+            if (string.IsNullOrWhiteSpace(NewEvent.Title))
             {
                 MessageBox.Show("Event title cannot be empty.");
                 return;
             }
 
-            if (EventDate == null)
+            if (NewEvent.EventDate == null)
             {
                 MessageBox.Show("Please select a date for the event.");
                 return;
             }
 
             // Time assignment
-            if (IsWholeDay)
+            if (NewEvent.IsWholeDay)
             {
-                NewEvent.start_time = EventDate.Value.Date;
-                NewEvent.end_time = EventDate.Value.Date.AddDays(1).AddTicks(-1);
+                NewEvent.StartTime = NewEvent.EventDate.Value.Date;
+                NewEvent.EndTime = NewEvent.EventDate.Value.Date.AddDays(1).AddTicks(-1);
             }
             else
             {
-                if (StartTime == null || EndTime == null)
+                if (NewEvent.StartTimeOnly == null || NewEvent.EndTimeOnly == null)
                 {
                     MessageBox.Show("Please specify start and end times.");
                     return;
                 }
 
-                NewEvent.start_time = EventDate.Value.Date + StartTime.Value;
-                NewEvent.end_time = EventDate.Value.Date + EndTime.Value;
+                NewEvent.StartTime = NewEvent.EventDate.Value.Date + NewEvent.StartTimeOnly.Value;
+                NewEvent.EndTime = NewEvent.EventDate.Value.Date + NewEvent.EndTimeOnly.Value;
 
-                if (NewEvent.end_time <= NewEvent.start_time)
+                if (NewEvent.EndTime <= NewEvent.StartTime)
                 {
                     MessageBox.Show("End time must be later than start time.");
                     return;
                 }
             }
 
-            // Notification
-            if (AddNotification)
+            //if isRecurring
+            if (NewEvent.IsRecurring)
             {
+                if (NewEvent.SelectedRecurrence == null)
+                {
+                    MessageBox.Show("Please select a recurrence pattern.");
+                    return;
+                }
+
+                int recurrenceId;
+                switch(NewEvent.SelectedRecurrence)
+                {
+                    case "Daily":
+                        recurrenceId = 2;
+                        break;
+                    case "Weekly":
+                        recurrenceId = 3;
+                        break;
+                    case "Monthly":
+                        recurrenceId = 4;
+                        break;
+                    case "Yearly":
+                        recurrenceId = 5;
+                        break;
+                    case "Working Day":
+                        recurrenceId = 6;
+                        break;
+                    case "Just Once":
+                        recurrenceId = 1;
+                        break;
+                    default:
+                        recurrenceId = 1;
+                        break;
+                }
+
+                NewEvent.RecurrenceId = recurrenceId;
+            }
+            else
+            {
+                NewEvent.RecurrenceId = null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(NewEvent.CategoryName))
+            {
+                int categoryId; // Example category ID, replace with actual category
+                switch (NewEvent.CategoryName)
+                {
+                    case "Work":
+                        categoryId = 2;
+                        break;
+                    case "Home":
+                        categoryId = 3;
+                        break;
+                    case "Education":
+                        categoryId = 4;
+                        break;
+                    case "Health":
+                        categoryId = 12;
+                        break;
+                    case "Personal":
+                        categoryId = 13;
+                        break;
+                    case "Other":
+                        categoryId = 1;
+                        break;
+                    default:
+                        categoryId = 1;
+                        break;
+                }
+                NewEvent.CategoryId = categoryId;
+            }
+            else
+            {
+                NewEvent.CategoryId = null;
+            }
+
+
+            // Notification
+            if (NewEvent.AddNotification)
+            {                
                 int minutesBefore = 0;
-                switch (SelectedNotificationTime)
+                switch (NewEvent.SelectedNotificationTime)
                 {
                     case "5 minutes":
                         minutesBefore = 5;
@@ -154,18 +171,31 @@ namespace CalendarApp
                         minutesBefore = 0;
                         break;
                 }
-                NewEvent.notify_time_before = minutesBefore;
-                NewEvent.notify_status = "Pending";
+                NewEvent.NotifyTimeBefore = minutesBefore;
+                NewEvent.NotifyStatus = "Pending";
             }
             else
             {
-                NewEvent.notify_time_before = null;
-                NewEvent.notify_status = null;
+                NewEvent.NotifyTimeBefore = null;
+                NewEvent.NotifyStatus = null;
             }
 
-            // TODO: Save to database
-            MessageBox.Show("Event added successfully!");
-            this.Close();
+            // Save to database
+            try
+            {
+                using (var context = new calendadbEntities())
+                {
+                    context.events.Add(NewEvent);
+                    context.SaveChanges();
+                }
+
+                MessageBox.Show("Event added successfully!");
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to save event to database: {ex.Message}");
+            }
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -187,14 +217,14 @@ namespace CalendarApp
 
         private void ResetEventForm()
         {
-            Title = string.Empty;
-            Description = string.Empty;
-            EventDate = null;
-            IsWholeDay = false;
-            StartTime = null;
-            EndTime = null;
-            AddNotification = false;
-            SelectedNotificationTime = null;
+            NewEvent.Title = string.Empty;
+            NewEvent.Description = string.Empty;
+            NewEvent.EventDate = null;
+            NewEvent.IsWholeDay = false;
+            NewEvent.StartTimeOnly = null;
+            NewEvent.EndTimeOnly = null;
+            NewEvent.AddNotification = false;
+            NewEvent.SelectedNotificationTime = null;
         }
     }
 }

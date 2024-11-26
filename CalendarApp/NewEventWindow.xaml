@@ -4,21 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        xmlns:calendarapp="clr-namespace:CalendarApp"
+        xmlns:local="clr-namespace:CalendarApp"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=local:events, IsDesignTimeCreatable=True}"
         WindowStartupLocation="CenterOwner"
         Style="{StaticResource MaterialDesignWindow}"
         Background="White"
         Title="Add New Event"
-        Height="700" Width="600" Cursor="">
-    <Window.DataContext>
-        <calendarapp:events />
-    </Window.DataContext>
+        Height="700" Width="1000">
+    <Window.Resources>
+        <local:TimeSpanToDateTimeConverter x:Key="TimeSpanToDateTimeConverter" />
+    </Window.Resources>
+
+
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -34,43 +38,79 @@
                    Style="{StaticResource MaterialDesignHeadline1TextBlock}" />
 
         <!-- Form -->
-        <Border Grid.Row="2" Grid.Column="1" BorderBrush="DarkSlateGray" BorderThickness="0.5" CornerRadius="10" Padding="5,5">
+        <Border Grid.Row="2" Grid.Column="1" BorderBrush="DarkSlateGray" BorderThickness="0.5,0.5,0,0.5" CornerRadius="10,0,0,10" Padding="5,5">
             <StackPanel Margin="0,0,0,20">
                 <!-- Event Title -->
-                <TextBox x:Name="TextBoxTitle" Style="{StaticResource MaterialDesignFilledTextBox}" 
+                <TextBox x:Name="TextBoxTitle" Style="{StaticResource MaterialDesignFilledTextBox}" Width="250" 
                          materialDesign:HintAssist.Hint="Title of Event" Margin="0,0,0,15" 
-                         Text="{Binding title, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Event Date -->
-                <DatePicker x:Name="DatePickerEventDate" Style="{StaticResource MaterialDesignDatePicker}" 
-                            materialDesign:HintAssist.Hint="Date of Event" Margin="0,0,0,15" 
-                            SelectedDate="{Binding EventDate, UpdateSourceTrigger=PropertyChanged}" />
+                <DatePicker x:Name="DatePickerEventDate" Style="{StaticResource MaterialDesignDatePicker}" Width="250"
+                            materialDesign:HintAssist.Hint="Date of Event" Margin="0,0,0,15"
+                            SelectedDate="{Binding EventDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                
+                <!-- Category -->
+                <!-- Notification Lead Time -->
+                <ComboBox x:Name="ComboBoxCategory" Style="{StaticResource MaterialDesignComboBox}" Width="250"
+          materialDesign:HintAssist.Hint="Select the category of event" 
+          SelectedItem="{Binding CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+          Margin="0,0,0,15">
+                    <ComboBoxItem Content="Work" />
+                    <ComboBoxItem Content="Home" />
+                    <ComboBoxItem Content="Education" />
+                    <ComboBoxItem Content="Health" />
+                    <ComboBoxItem Content="Personal" />
+                    <ComboBoxItem Content="Other" />
+                </ComboBox>
+
 
                 <!-- Whole Day -->
                 <CheckBox x:Name="CheckBoxIsWholeDay" Content="Is Whole Day?" 
-                          Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,15" 
-                          IsChecked="{Binding IsWholeDay, UpdateSourceTrigger=PropertyChanged}" />
+                          Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,15"  Width="250"
+                          IsChecked="{Binding IsWholeDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Start Time -->
-                <materialDesign:TimePicker x:Name="TimePickerStart" 
-                                           SelectedTime="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" 
+                <materialDesign:TimePicker x:Name="TimePickerStart" Width="250"
+                                           SelectedTime="{Binding StartTimeOnly, Mode=TwoWay, Converter={StaticResource TimeSpanToDateTimeConverter}, UpdateSourceTrigger=PropertyChanged}" 
                                            materialDesign:HintAssist.Hint="Start Time" Margin="0,0,0,15" />
 
                 <!-- End Time -->
-                <materialDesign:TimePicker x:Name="TimePickerEnd" 
-                                           SelectedTime="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" 
+                <materialDesign:TimePicker x:Name="TimePickerEnd" Width="250"
+                                           SelectedTime="{Binding EndTimeOnly, Mode=TwoWay,Converter={StaticResource TimeSpanToDateTimeConverter}, UpdateSourceTrigger=PropertyChanged}" 
                                            materialDesign:HintAssist.Hint="End Time" Margin="0,0,0,15" />
+                <!-- Recurrence -->
+                <CheckBox x:Name="CheckBoxIsRecurring" Content="Is a recurring event?" 
+                    Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,15"  Width="250"
+                    IsChecked="{Binding IsRecurring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                <ComboBox x:Name="ComboBoxRecurrence" Style="{StaticResource MaterialDesignComboBox}" Width="250"
+                    materialDesign:HintAssist.Hint="Select the recurrence of event" 
+                    SelectedItem="{Binding SelectedRecurrence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Margin="0,0,0,15">
+                    <ComboBoxItem Content="Daily" />
+                    <ComboBoxItem Content="Weekly" />
+                    <ComboBoxItem Content="Monthly" />
+                    <ComboBoxItem Content="Yearly" />
+                    <ComboBoxItem Content="Working Day" />
+                    <ComboBoxItem Content="Just Once" />
+                </ComboBox>
+
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="2" BorderBrush="DarkSlateGray" BorderThickness="0,0.5,0.5,0.5" CornerRadius="0,10,10,0" Padding="5,5" >
+            <StackPanel Margin="0,0,0,20">
                 <!-- Notification -->
-                <CheckBox x:Name="CheckBoxNotification" Content="Add Notification?" 
-                          IsChecked="{Binding AddNotification, UpdateSourceTrigger=PropertyChanged}" 
-                          Style="{StaticResource MaterialDesignCheckBox}" Margin="0,0,0,15" />
+                <CheckBox x:Name="CheckBoxNotification" Content="Add Notification?" Width="250"
+                    IsChecked="{Binding AddNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Style="{StaticResource MaterialDesignCheckBox}" Margin="0,15,0,15" />
 
                 <!-- Notification Lead Time -->
-                <ComboBox x:Name="ComboBoxNotificationLeadTime" Style="{StaticResource MaterialDesignComboBox}" 
-                          materialDesign:HintAssist.Hint="Notification Lead Time" 
-                          SelectedItem="{Binding SelectedNotificationTime, UpdateSourceTrigger=PropertyChanged}" 
-                          Margin="0,0,0,15">
+                <ComboBox x:Name="ComboBoxNotificationLeadTime" Style="{StaticResource MaterialDesignComboBox}" Width="250"
+                    materialDesign:HintAssist.Hint="Notification Lead Time" 
+                    SelectedItem="{Binding SelectedNotificationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Margin="0,0,0,15">
                     <ComboBoxItem Content="5 minutes" />
                     <ComboBoxItem Content="10 minutes" />
                     <ComboBoxItem Content="15 minutes" />
@@ -79,14 +119,14 @@
                 </ComboBox>
 
                 <!-- Description -->
-                <TextBox x:Name="TextBoxDescription" Style="{StaticResource MaterialDesignFilledTextBox}" 
-                         materialDesign:HintAssist.Hint="Description of Event (Optional)" Margin="0,0,0,15" 
-                         Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="TextBoxDescription" Style="{StaticResource MaterialDesignFilledTextBox}" Width="250"
+                    materialDesign:HintAssist.Hint="Description of Event (Optional)" Margin="0,0,0,15" 
+                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
-        </Border>
+        </Border> 
 
         <!-- Buttons -->
-        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Add Event" Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Width="100" Margin="10,0" Click="AddEvent_Click"/>
             <Button Content="Cancel" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="80" Margin="10,0" Click="Cancel_Click"/>
             <Button Content="Back" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="70" Margin="10,0" Click="Back_Click"/>
