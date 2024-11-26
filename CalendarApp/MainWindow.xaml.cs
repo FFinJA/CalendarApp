@@ -178,7 +178,17 @@ namespace CalendarApp
 
         public MainWindow()
         {
+            UserPartial currentUser = Application.Current.Properties["CurrentUser"] as UserPartial;
+
+            if (currentUser == null) { 
+                LoginWindow loginWindow = new LoginWindow();
+                loginWindow.Show();
+                this.Close();
+                return;
+            }
+
             InitializeComponent();
+            WelcomeMessage.Text = $"Welcome, {currentUser.Name}";
             _viewModel = new MainViewModel();
             DataContext = _viewModel;
 

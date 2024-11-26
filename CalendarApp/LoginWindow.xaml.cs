@@ -52,9 +52,17 @@ namespace CalendarApp
 
                     if (user != null)
                     {
-                        MessageBox.Show($"Welcome, {user.username}!", "Login Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                        //map database user to partialUser
+                        UserPartial login = new UserPartial();
+                        login.Email = user.email;
+                        login.Name = user.username;
 
-                       
+                        Application.Current.Properties["CurrentUser"] = login;
+
+                        MessageBox.Show($"Welcome, {user.username}!", "Login Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                          
+                        var mainWindow = new MainWindow();
+                        mainWindow.Show();
                         this.Close();
                     }
                     else

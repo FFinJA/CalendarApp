@@ -24,8 +24,7 @@
         <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Cursor="">
 
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Button Content="＋ Create" Background="#3A6EFF" Foreground="White" Padding="10,5"
-                        FontWeight="Bold" Margin="5" BorderThickness="0" Width="120" />
+                <TextBlock x:Name="WelcomeMessage"/>
             </StackPanel>
 
 
