@@ -108,7 +108,6 @@
     <Compile Include="category.cs">
       <DependentUpon>MyDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserPartial.cs" />
     <Compile Include="DatabaseConfigLoader.cs" />
     <Compile Include="DateDetailsWindow.xaml.cs">
       <DependentUpon>DateDetailsWindow.xaml</DependentUpon>
@@ -134,11 +133,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyDatabaseModel.tt</DependentUpon>
     </Compile>
-    <!--<Compile Include="MyDatabaseModel.Designer.cs">
+    <Compile Include="MyDatabaseModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MyDatabaseModel.edmx</DependentUpon>
-    </Compile>-->
+    </Compile>
     <Compile Include="NewEventWindow.xaml.cs">
       <DependentUpon>NewEventWindow.xaml</DependentUpon>
     </Compile>
@@ -189,7 +188,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <!--<Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -198,7 +197,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>-->
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

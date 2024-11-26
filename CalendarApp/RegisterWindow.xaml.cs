@@ -82,10 +82,7 @@ namespace CalendarApp
                     context.SaveChanges();
 
                     MessageBox.Show("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.Close();
-                    LoginWindow loginWindow = new LoginWindow();
-                    loginWindow.Show();
-                    // 关闭注册窗口
+                    this.Close(); // 关闭注册窗口
                 }
             }
             catch (Exception ex)
