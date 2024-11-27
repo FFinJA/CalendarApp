@@ -17,7 +17,7 @@ namespace CalendarApp
         private users _loggedInUser;
         private int _userId;
 
-        public NewEventWindow(users loggedInUser=null)
+        public NewEventWindow(users loggedInUser = null, DateTime? selectedDate = null)
         {
             InitializeComponent();
             var converter = new TimeSpanToDateTimeConverter();
@@ -30,7 +30,7 @@ namespace CalendarApp
                 NewEvent = new events
                 {
                     UserId = _loggedInUser.id,
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = selectedDate ?? DateTime.Now,
                     StartTime = DateTime.Now,
                     EndTime = DateTime.Now.AddSeconds(1)
                 };                    
@@ -87,24 +87,24 @@ namespace CalendarApp
                 }
 
                 int recurrenceId=1;
-                switch(NewEvent.SelectedRecurrence)
+                switch (NewEvent.SelectedRecurrence)
                 {
-                    case "Daily":
+                    case "System.Windows.Controls.ComboBoxItem: Daily":
                         recurrenceId = 2;
                         break;
-                    case "Weekly":
+                    case "System.Windows.Controls.ComboBoxItem: Weekly":
                         recurrenceId = 3;
                         break;
-                    case "Monthly":
+                    case "System.Windows.Controls.ComboBoxItem: Monthly":
                         recurrenceId = 4;
                         break;
-                    case "Yearly":
+                    case "System.Windows.Controls.ComboBoxItem: Yearly":
                         recurrenceId = 5;
                         break;
-                    case "Working Day":
+                    case "System.Windows.Controls.ComboBoxItem: Working Day":
                         recurrenceId = 6;
                         break;
-                    case "Just Once":
+                    case "System.Windows.Controls.ComboBoxItem: Just Once":
                         recurrenceId = 1;
                         break;
                     
@@ -122,22 +122,22 @@ namespace CalendarApp
                 int categoryId; // Example category ID, replace with actual category
                 switch (NewEvent.CategoryName)
                 {
-                    case "Work":
+                    case "System.Windows.Controls.ComboBoxItem: Work":
                         categoryId = 2;
                         break;
-                    case "Home":
+                    case "System.Windows.Controls.ComboBoxItem: Home":
                         categoryId = 3;
                         break;
-                    case "Education":
+                    case "System.Windows.Controls.ComboBoxItem: Education":
                         categoryId = 4;
                         break;
-                    case "Health":
+                    case "System.Windows.Controls.ComboBoxItem: Health":
                         categoryId = 12;
                         break;
-                    case "Personal":
+                    case "System.Windows.Controls.ComboBoxItem: Personal":
                         categoryId = 13;
                         break;
-                    case "Other":
+                    case "System.Windows.Controls.ComboBoxItem: Other":
                         categoryId = 1;
                         break;
                     default:
@@ -155,22 +155,22 @@ namespace CalendarApp
             // Notification
             if (NewEvent.AddNotification)
             {                
-                int minutesBefore = 0;
+                int minutesBefore = 0;                
                 switch (NewEvent.SelectedNotificationTime)
                 {
-                    case "5 minutes":
+                    case "System.Windows.Controls.ComboBoxItem: 5 minutes":
                         minutesBefore = 5;
                         break;
-                    case "10 minutes":
+                    case "System.Windows.Controls.ComboBoxItem: 10 minutes":
                         minutesBefore = 10;
                         break;
-                    case "15 minutes":
+                    case "System.Windows.Controls.ComboBoxItem: 15 minutes":
                         minutesBefore = 15;
                         break;
-                    case "30 minutes":
+                    case "System.Windows.Controls.ComboBoxItem: 30 minutes":
                         minutesBefore = 30;
                         break;
-                    case "1 hour":
+                    case "System.Windows.Controls.ComboBoxItem: 1 hour":
                         minutesBefore = 60;
                         break;
                     default:
