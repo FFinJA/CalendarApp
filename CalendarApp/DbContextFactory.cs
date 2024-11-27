@@ -17,7 +17,7 @@ namespace CalendarApp
     {
         public static calendadbEntities CreateDbContext()
         {
-            // 读取配置文件
+            // load the configuration file
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string configFile = Path.Combine(appDataPath, "CalendarApp", "config.json");
 
@@ -26,7 +26,7 @@ namespace CalendarApp
                 throw new FileNotFoundException("Configuration file not found.");
             }
 
-            // 解密 JSON 文件并获取数据库配置
+            // decrypt the configuration file
             string encryptedJson = File.ReadAllText(configFile);
             string json = DbConfigWindow.Decrypt(encryptedJson, "encrytedPassword2024FSD.12");
             var databaseConfig = JsonConvert.DeserializeObject<DatabaseConfig>(json);
@@ -36,11 +36,11 @@ namespace CalendarApp
                 throw new InvalidOperationException("Invalid database configuration.");
             }
 
-            // 构建基础的 SQL 连接字符串
+            // create the connection string
             string sqlConnectionString = $@"Server={databaseConfig.Server};Database={databaseConfig.DatabaseName};
                                          User Id={databaseConfig.Username};Password={databaseConfig.Password};";
 
-            // 使用 EntityConnectionStringBuilder 构建 Entity Framework 的连接字符串
+            // using EntityConnectionStringBuilder to build the EntityConnectionString
             var sqlBuilder = new SqlConnectionStringBuilder(sqlConnectionString);
             var entityBuilder = new EntityConnectionStringBuilder
             {
@@ -49,7 +49,7 @@ namespace CalendarApp
                 Metadata = "res://*/MyDatabaseModel.csdl|res://*/MyDatabaseModel.ssdl|res://*/MyDatabaseModel.msl"
             };
 
-            // 传递 EntityConnectionString
+            // pass the EntityConnectionString to the DbContext
             return new calendadbEntities(entityBuilder.ToString());
         }
     }

@@ -18,9 +18,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="7*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
@@ -52,14 +52,27 @@
                            FontWeight="Bold" Margin="0,20,0,5"/>
                 <ListBox x:Name="EventsListBox" 
                          Style="{DynamicResource MaterialDesignListBox}" 
-                         Margin="0,5"/>
+                         Margin="0,5">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Panel.ZIndex="1">
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding StartTime, StringFormat='hh:mm tt'}" Margin="0,0,10,0"/>
+                                <Button Content="Export" Width="100" Height="30" 
+                        Click="ExportToIcsButton_Click" Tag="{Binding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
                 <!-- Buttons -->
-                <Button Content="Add Event" Margin="0, 20" Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
-                        Width="200" Cursor="Hand" Click="AddEventButton_Click"/>
+                <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Cursor="">
+                <Button x:Name="AddEventButton" Content="Add Event" Margin="0, 20,5,0" Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
+                        Width="100" Cursor="Hand" Click="AddEventButton_Click"/>
 
-                <Button Content="Close" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Width="200" 
-                        Cursor="Hand" Margin="0,20,0,0" Click="CloseButton_Click"/>
+                <Button Content="Close" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Width="80" 
+                        Cursor="Hand" Margin="5,20,0,0" Click="CloseButton_Click"/>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

@@ -274,14 +274,9 @@ namespace CalendarApp
             _viewModel = new MainViewModel(LoggedInUser);
             DataContext = _viewModel;
 
-            if (LoggedInUser != null)
-            {
-                TextBlockH1.Text += $" Welcome {LoggedInUser.username}!";
-            }
-            else
-            {
-                TextBlockH1.Text += " Welcome, Guest.";
-            }
+            UpdateUIBasedOnLoginStatus();
+
+            
 
             try
             {
@@ -311,45 +306,45 @@ namespace CalendarApp
 
         private void OpenLoginWindow_Click(object sender, RoutedEventArgs e)
 {
-    this.Hide();
+            this.Hide();
 
             // open login window
             var loginWindow = new LoginWindow();
-    bool? result = loginWindow.ShowDialog();
-
+            bool? result = loginWindow.ShowDialog();
+            UpdateUIBasedOnLoginStatus();
             // if login is successful, show the main window
             if (result == true)
-    {
-        var loggedInUser = loginWindow.LoggedInUser;
-
-        if (loggedInUser != null)
-        {
+            {
+                var loggedInUser = loginWindow.LoggedInUser;
+                if (loggedInUser != null)
+                {
                     // renew the logged in user
                     _loggedInUser = loggedInUser;
-            LoggedInUser = loggedInUser;
+                    LoggedInUser = loggedInUser;
+                    UpdateUIBasedOnLoginStatus();
 
                     // renew the view model
                     _viewModel = new MainViewModel(_loggedInUser);
-            DataContext = _viewModel;
+                    DataContext = _viewModel;
 
                     // renew the welcome message
                     TextBlockH1.Text = $"Welcome, {_loggedInUser.username}!";
 
-            this.Show();
-        }
-        else
-        {
+                    this.Show();
+                }
+                else
+                {
                     // if login is successful but no user is returned, show the main window as guest
                     TextBlockH1.Text = "Welcome, Guest.";
-            this.Show();
-        }
-    }
-    else
-    {
+                    this.Show();
+                }
+            }
+            else
+            {
                 // if login is not successful, close the application
                 Application.Current.Shutdown();
-    }
-}
+            }
+        }
 
 
         private void OpenReigsterWindow_Click(object sender, RoutedEventArgs e) => OpenWindow<RegisterWindow>();
@@ -418,7 +413,7 @@ namespace CalendarApp
             var clickedDate = (sender as FrameworkElement)?.DataContext as CalendarDay;
             if (clickedDate != null)
             {
-                var datailsWindow = new DateDetailsWindow(new DateTime(_viewModel.CurrentMonth.Year, _viewModel.CurrentMonth.Month, clickedDate.Day), clickedDate.Holiday, clickedDate.Events);
+                var datailsWindow = new DateDetailsWindow(new DateTime(_viewModel.CurrentMonth.Year, _viewModel.CurrentMonth.Month, clickedDate.Day), clickedDate.Holiday, clickedDate.Events,_loggedInUser);
                 datailsWindow.ShowDialog();
             }
         }
@@ -439,6 +434,24 @@ namespace CalendarApp
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to delete user info file: {ex.Message}", "CalendarApp", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void UpdateUIBasedOnLoginStatus()
+        {
+            if (LoggedInUser != null)
+            {
+                TextBlockH1.Text = $"Calendar - Welcome {LoggedInUser.username}!";                
+                ButtonOpenNewEventWindow.Visibility = Visibility.Visible;
+                ButtonOpenDbConfigWindow.Visibility = Visibility.Collapsed;
+                ButtonOpenRegisterWindow.Visibility = Visibility.Collapsed;
+                ButtonOpenLoginWindow.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                TextBlockH1.Text = "Calendar - Welcome, Guest.";               
+                ButtonOpenDbConfigWindow.Visibility = Visibility.Visible;
+                ButtonOpenRegisterWindow.Visibility = Visibility.Visible;
+                ButtonOpenLoginWindow.Visibility = Visibility.Visible;
             }
         }
     }

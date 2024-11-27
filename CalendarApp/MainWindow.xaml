@@ -26,7 +26,7 @@
 
             
             <Border Margin="10" >
-                <Calendar BorderBrush="#3A6EFF" BorderThickness="1"/>
+                <Calendar BorderBrush="#3A6EFF" BorderThickness="1" DisplayDate="{Binding CurrentMonth, Mode=TwoWay}"/>
             </Border>
 
 
@@ -45,10 +45,10 @@
                 <CheckBox Content="Canada Holidays" IsChecked="True" Foreground="Black" Margin="5,2" />
                 <CheckBox Content="Province Holidays" IsChecked="True" Foreground="Black" Margin="5,2" />
             </StackPanel>
-            <Button x:Name="ButtonOpenLoginWindow" Content="Open Login Window" Width="150" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenLoginWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}" />
-            <Button x:Name="ButtonOpenRegisterWindow" Content="Open Register Window" Width="150" Height="50" Click="OpenReigsterWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
-            <Button x:Name="ButtonOpenNewEventWindow" Content="Open New Event Window" Width="150" Height="50" Click="OpenNewEventWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
-            <Button x:Name="ButtonOpenDbConfigWindow" Content="Open Data Config Window" Width="150" Height="50" Click="OpenDbConfigWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+            <Button x:Name="ButtonOpenLoginWindow" Content="Open Login Window" Width="200" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenLoginWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Visibility="Collapsed" />
+            <Button x:Name="ButtonOpenRegisterWindow" Content="Open Register Window" Width="200" Height="50" Click="OpenReigsterWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Visibility="Collapsed"/>
+            <Button x:Name="ButtonOpenNewEventWindow" Content="Open New Event Window" Width="200" Height="50" Click="OpenNewEventWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Visibility="Collapsed"/>
+            <Button x:Name="ButtonOpenDbConfigWindow" Content="Open Data Config Window" Width="200" Height="50" Click="OpenDbConfigWindow_Click" Margin="5" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Visibility="Collapsed"/>
 
         </StackPanel>
 

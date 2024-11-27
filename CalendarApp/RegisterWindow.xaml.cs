@@ -25,18 +25,17 @@ namespace CalendarApp
             InitializeComponent();
         }
 
-        // "Sign me up" 按钮点击事件
         private void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // 获取用户输入
+                // get input
                 string username = UserNameTextBox.Text.Trim();
                 string email = EmailTextBox.Text.Trim();
                 string password = PasswordTextBox.Password.Trim();
                 string confirmPassword = ConfirmPasswordTextBox.Password.Trim();
 
-                // 验证输入
+                // validation
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) ||
                     string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
                 {
@@ -56,20 +55,20 @@ namespace CalendarApp
                     return;
                 }
 
-                // 加密密码
+                // encrypt password
                 string hashedPassword = HashPassword(password);
 
-                // 保存到数据库
+                // save to database
                 using (var context = DbContextFactory.CreateDbContext())
                 {
-                    // 检查用户名或邮箱是否已存在
+                    // check if username or email already exists
                     if (context.users.Any(u => u.username == username || u.email == email))
                     {
                         MessageBox.Show("Username or email already exists.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
 
-                    // 插入新用户
+                    // new a user
                     var newUser = new users
                     {
                         username = username,
@@ -82,7 +81,7 @@ namespace CalendarApp
                     context.SaveChanges();
 
                     MessageBox.Show("Registration successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.Close(); // 关闭注册窗口
+                    this.Close(); // close the window
                 }
             }
             catch (Exception ex)
@@ -91,17 +90,17 @@ namespace CalendarApp
             }
         }
 
-        // "Login" 按钮点击事件
+        
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            // 打开登录窗口
+            // open the login window
             var loginWindow = new LoginWindow();
-            loginWindow.Owner = this.Owner; // 设置父窗口为主窗口
+            loginWindow.Owner = this.Owner; // set the owner of the window
             loginWindow.Show();
             this.Close();
         }
 
-        // 检查邮箱格式
+        // check if the email is valid
         private bool IsValidEmail(string email)
         {
             try
@@ -115,7 +114,7 @@ namespace CalendarApp
             }
         }
 
-        // 密码哈希函数（使用 SHA256）
+        // hash the password
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
