@@ -1,0 +1,96 @@
+Nov 22
+
+Kirill
+1.Done:
+- submitted proposal
+- set up db connection 
+- styles login register
+2.To-do:
+- login register backend
+- environment variables
+3.Issues:
+- entra id needs special permission, dropping that idea
+- connection strings exposed and i spent long time to find solution
+
+November 20
+
+Kirill
+1. What I have done / not done since last Scrum?
+- finalized diagrams 
+2. What I plan to do from this scrum to next? (next 24 hours)
+- submit
+- db conection
+- set up entra 
+- start login register
+3. Where do I need assistance? What do I need to figure out?
+
+Felix
+1. What I have done / not done since last Scrum?
+Initial upload: brought 4 window(s) to the repository.
+Tried to connnect with the Microsoft Azure SQL Server.
+2. What I plan to do from this scrum to next? (next 24 hours)
+Connected Azure Server with the Azure SQL Server.
+3. Where do I need assistance? What do I need to figure out?
+
+melinda
+1. What I have done / not done since last Scrum?
+Added this document to the repo
+Did basic set up of Trello board & gave access to team
+Created a UML diagram with https://plantuml.com/
+_____________________________________________________________________
+@startuml
+actor User
+
+rectangle "Calendar App" {
+     User --> (Sign Up)
+     User --> (Log In)
+
+     (Log In) --> (View Events) : <<include>>
+
+     (View Events) --> (Add Event) : <<extend>>
+     (View Events) --> (Edit Event) : <<extend>>
+     (View Events) --> (Delete Event) : <<extend>>
+     (View Events) --> (Print Events) : <<extend>>
+
+     (Add Event) -down-> (Set Notification) : <<extend>>
+     (Edit Event) -down-> (Set Notification) : <<extend>>
+
+     (Set Notification) -right-> (Notify User) : <<extend>>
+
+}
+@enduml
+_______________________________________________________________________
+2. What I plan to do from this scrum to next? (next 24 hours)
+3. Where do I need assistance? What do I need to figure out?
+
+
+November 23
+Felix
+1. What I have done / not done since last Scrum?
+Made the databaseConfigWindow can save the encrypted .json file into username\AppData\Roaming
+Made the mainWindow can load the .json file and decrypt.
+2. What I plan to do from this scrum to next? (next 24 hours)
+Data binding
+3. Where do I need assistance? What do I need to figure out?
+
+November 24
+1. What I have done / not done since last Scrum?
+Two-way binding with WPF interface and mainViewModel
+2. What I plan to do from this scrum to next? (next 24 hours)
+Fix the logic to just show dataConfigWindow button when not logged in.
+3. Where do I need assistance? What do I need to figure out?
+
+November 25
+1. What I have done / not done since last Scrum?
+Brought a .txt file with holidays information(not dare to modify the Azure SQL server database).
+Load the information from .txt file and integrate with the mainViewModel.
+2. What I plan to do from this scrum to next? (next 24 hours)
+Fix the logic to just show dataConfigWindow button when not logged in.
+3. Where do I need assistance? What do I need to figure out?
+
+November 26
+1. What I have done / not done since last Scrum?
+Fixed the logic to just show dataConfigWindow button when not logged in.
+2. What I plan to do from this scrum to next? (next 24 hours)
+Fixt the newEventWindow to display events when user logged in only.
+3. Where do I need assistance? What do I need to figure out?
